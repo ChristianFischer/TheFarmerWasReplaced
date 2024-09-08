@@ -9,6 +9,14 @@ def reset_world_pos():
         move(North)
 
 
+def reset_world_pos_0():
+    while get_pos_x() > 0:
+        move(West)
+
+    while get_pos_y() > 0:
+        move(South)
+
+
 def iterate_through_world():
     move(East)
     if get_pos_x() == 0:
@@ -16,7 +24,7 @@ def iterate_through_world():
 
 
 def do_shopping():
-    _seeds = [Items.Carrot_Seed, Items.Pumpkin_Seed, Items.Sunflower_Seed, Items.Fertilizer]
+    _seeds = [Items.Carrot_Seed, Items.Pumpkin_Seed, Items.Sunflower_Seed, Items.Cactus_Seed, Items.Fertilizer]
     _need_stock = get_world_size() * get_world_size() * 2
 
     for _s in _seeds:
