@@ -1,9 +1,11 @@
 from __builtins__ import *
+from farming_sonnenblumen import *
 from lib_farming import *
 from lib_maze import *
 
 while True:
     do_shopping()
+    farming_sonnenblumen_if_necessary()
     t = None
 
     while t != Entities.Hedge:

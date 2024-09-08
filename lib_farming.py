@@ -9,6 +9,12 @@ def reset_world_pos():
         move(North)
 
 
+def iterate_through_world():
+    move(East)
+    if get_pos_x() == 0:
+        move(South)
+
+
 def do_shopping():
     _seeds = [Items.Carrot_Seed, Items.Pumpkin_Seed, Items.Sunflower_Seed, Items.Fertilizer]
     _need_stock = get_world_size() * get_world_size() * 2
@@ -40,9 +46,6 @@ def get_intended_plant(_primary_plant):
     _x = get_pos_x()
     _y = get_pos_y()
     _max = get_world_size() - 1
-
-    if _x < 10 and _y < 1:
-        return Entities.Sunflower
 
     if _primary_plant != None:
         if _primary_plant == Entities.Tree:

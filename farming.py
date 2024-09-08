@@ -1,4 +1,5 @@
 from __builtins__ import *
+from farming_sonnenblumen import *
 from lib_farming import *
 
 primary = select_primary_plant()
@@ -6,12 +7,11 @@ max_sunflower_petal = 0
 
 
 while True:
-    move(East)
-    if get_pos_x() == 0:
-        move(South)
+    iterate_through_world()
 
     if get_pos_x() == 0 and get_pos_y() == 0:
         do_shopping()
+        farming_sonnenblumen_if_necessary()
         primary = select_primary_plant()
 
     if can_harvest():
