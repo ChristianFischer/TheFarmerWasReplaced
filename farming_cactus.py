@@ -1,6 +1,6 @@
 from __builtins__ import *
-from farming_sonnenblumen import farming_sonnenblumen_if_necessary
-from lib_farming import *
+import lib_farming
+import movement
 
 
 def farming_cactus():
@@ -11,31 +11,28 @@ def farming_cactus():
 
 # step1: planting
 def farming_cactus_plant():
-    do_shopping()
-
     for _f in range(get_world_size() * get_world_size()):
-        iterate_through_world()
-
         if get_entity_type() != Entities.Cactus:
             # erase any previous plant
             if can_harvest():
                 harvest()
 
-            do_plant(Entities.Cactus)
+            lib_farming.do_plant(Entities.Cactus)
 
-        do_watering()
+        lib_farming.do_watering()
 
-    reset_world_pos()
+        movement.fly_over_field()
+
+    movement.reset_world_pos()
+
 
 # step2: sorting
 def farming_cactus_sort():
     is_sorted = False
-    while is_sorted == False:
+    while not is_sorted:
         is_sorted = True
 
         for _f in range(get_world_size() * get_world_size()):
-            iterate_through_world()
-
             cactus_size = measure()
             if get_pos_x() > 0 and cactus_size < measure(West):
                 swap(West)
@@ -46,6 +43,8 @@ def farming_cactus_sort():
                 swap(South)
                 is_sorted = False
 
+            movement.fly_over_field()
+
 
 # step3: harvest
 def farming_cactus_harvest():
@@ -54,9 +53,3 @@ def farming_cactus_harvest():
 
     harvest()
 
-
-
-while True:
-    farming_sonnenblumen_if_necessary()
-
-    farming_cactus()

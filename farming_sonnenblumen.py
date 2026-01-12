@@ -1,10 +1,9 @@
 from __builtins__ import *
-from lib_farming import *
+import lib_farming
+import movement
 
 
-def farming_sonnenblumen():
-    do_shopping()
-
+def farming_sonnenblumen(fertilize=False):
     current_max_petals = 0
     petals_list = {}
 
@@ -14,21 +13,25 @@ def farming_sonnenblumen():
 
     # step1: planting
     for _f in range(get_world_size() * get_world_size()):
-        iterate_through_world()
-
         # plant, if there's not already a sunflower
         if get_entity_type() != Entities.Sunflower:
             if can_harvest():
                 harvest()
 
-            do_plant(Entities.Sunflower)
+            lib_farming.do_plant(Entities.Sunflower)
 
-        do_watering()
+        lib_farming.do_watering()
 
         # store how much sunflowers we got for each number of petals
         petals = measure()
         petals_list[petals] = petals_list[petals] + 1
         current_max_petals = max(current_max_petals, petals)
+
+        movement.fly_over_field()
+
+    # step1.5: fertilize, if requested
+    if fertilize:
+        lib_farming.fertilize_field()
 
     # step2: harvest
     while current_max_petals > 0:

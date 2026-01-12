@@ -1,32 +1,19 @@
 from __builtins__ import *
-from farming_sonnenblumen import *
-from lib_farming import *
 from lib_maze import *
 
-while True:
-    do_shopping()
-    farming_sonnenblumen_if_necessary()
-    t = None
 
-    while t != Entities.Hedge:
-        t = get_entity_type()
+def run_maze(times=1):
+    harvest()
+    plant(Entities.Bush)
 
-        if t == Entities.Hedge:
-            pass
-        elif t == Entities.Bush:
-            use_item(Items.Fertilizer)
-        elif t == None:
-            plant(Entities.Bush)
-        else:
-            harvest()
-            plant(Entities.Bush)
+    required_substance = calc_required_substance()
+    use_item(Items.Weird_Substance, required_substance)
 
     do_a_flip()
 
     current_dir = North
-    finished = False
 
-    while finished == False:
+    while True:
         current_x = get_pos_x()
         current_y = get_pos_y()
 
@@ -40,6 +27,14 @@ while True:
         current_dir = d
 
         if get_entity_type() == Entities.Treasure:
-            harvest()
+            if times > 1:
+                if num_items(Items.Weird_Substance) < required_substance:
+                    print("Not enough weird substances!")
+                    harvest()
+                    return
 
-            finished = True
+                use_item(Items.Weird_Substance, required_substance)
+                times = times - 1
+            else:
+                harvest()
+                return
