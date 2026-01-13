@@ -9,6 +9,7 @@ all_items = [
     Items.Carrot,
     Items.Pumpkin,
     Items.Cactus,
+    Items.Bone,
     Items.Gold,
 ]
 
@@ -63,6 +64,13 @@ def find_next_required_item():
     # if weird substance is required, request another item instead plus fertilization
     if demand_item == Items.Weird_Substance:
         return Items.Wood, True
+
+    # bones requires apples to buy; test for enough apples for a max size snake
+    if demand_item == Items.Bone:
+        costs = get_cost(Entities.Apple)
+        costs_item = find_first_unavailable_costs(costs, get_world_size() ** 2)
+        if costs_item != None:
+            return costs_item, False
 
     while True:
         demand_plant = plants.get_plant_for(demand_item)

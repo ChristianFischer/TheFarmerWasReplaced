@@ -3,6 +3,7 @@ import movement
 import demands
 import farming
 import farming_cactus
+import farming_dinos
 import farming_sonnenblumen
 import maze
 import special_plants
@@ -39,8 +40,7 @@ while True:
     elif current_demand == Items.Cactus:
         farming_cactus.farming_cactus()
     elif current_demand == Items.Bone:
-        print("Bone is not supported yet")
-        break
+        farming_dinos.farming_dinosaur()
     else:
         farming.farm(current_demand, demand_fertilizer)
         special_plants.handle(current_demand)
