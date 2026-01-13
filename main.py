@@ -38,6 +38,9 @@ while True:
         farming_sonnenblumen.farming_sonnenblumen(demand_fertilizer)
     elif current_demand == Items.Cactus:
         farming_cactus.farming_cactus()
+    elif current_demand == Items.Bone:
+        print("Bone is not supported yet")
+        break
     else:
         farming.farm(current_demand, demand_fertilizer)
         special_plants.handle(current_demand)
