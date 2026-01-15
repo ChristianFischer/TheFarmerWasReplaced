@@ -4,9 +4,9 @@ import demands
 import farming
 import farming_cactus
 import farming_dinos
+import farming_pumpkins
 import farming_sonnenblumen
 import maze
-import special_plants
 
 
 last_demand = None
@@ -37,11 +37,12 @@ while True:
         maze.run_maze()
     elif current_demand == Items.Power:
         farming_sonnenblumen.farming_sonnenblumen(demand_fertilizer)
+    elif current_demand == Items.Pumpkin:
+        farming_pumpkins.farming_pumpkins()
     elif current_demand == Items.Cactus:
         farming_cactus.farming_cactus()
     elif current_demand == Items.Bone:
         farming_dinos.farming_dinosaur()
     else:
         farming.farm(current_demand, demand_fertilizer)
-        special_plants.handle(current_demand)
 

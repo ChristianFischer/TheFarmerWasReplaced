@@ -1,12 +1,129 @@
-def fly_over_field():
+from __builtins__ import *
+import boundaries
+
+
+def fly_over_field(per_field_callback):
+    while True:
+        per_field_callback()
+
+        if fly_field_step():
+            return
+
+
+def fly_field_step():
     move(East)
     if get_pos_x() == 0:
-        move(South)
+        move(North)
 
-        if get_pos_y() == get_world_size()-1:
+        if get_pos_y() == 0:
             return True
 
     return False
+
+
+def fly_field_step_in_bounds(bounds):
+    min_x, min_y, max_x, max_y = bounds
+    x = get_pos_x()
+    y = get_pos_y()
+
+    # if outside the boundaries, move to origin first
+    if x < min_x or x > max_x or y < min_y or y > max_y:
+        ox, oy = boundaries.get_origin(bounds)
+        move_to(ox, oy)
+        x = ox
+        y = oy
+
+    mod = (y - min_y) % 2
+    if mod == 0:
+        if x == max_x:
+            if y == max_y:
+                return True
+            else:
+                move(North)
+        else:
+            move(East)
+    else:
+        if x == min_x:
+            if y == max_y:
+                return True
+            else:
+                move(North)
+        else:
+            move(West)
+
+    return False
+
+
+def fly_field_step_in_bounds_reverse(bounds):
+    min_x, min_y, max_x, max_y = bounds
+    x = get_pos_x()
+    y = get_pos_y()
+
+    # if outside the boundaries, move to the path end first
+    if x < min_x or x > max_x or y < min_y or y > max_y:
+        ex, ey = boundaries.get_path_end(bounds)
+        move_to(ex, ey)
+        x = ex
+        y = ey
+
+    mod = (y - min_y) % 2
+    if mod == 0:
+        if x == min_x:
+            if y == min_y:
+                return True
+            else:
+                move(South)
+        else:
+            move(West)
+    else:
+        if x == max_x:
+            if y == min_y:
+                return True
+            else:
+                move(South)
+        else:
+            move(East)
+
+    return False
+
+
+def fly_field_step_in_bounds_get_next_dir(bounds):
+    min_x, min_y, max_x, max_y = bounds
+    x = get_pos_x()
+    y = get_pos_y()
+
+    # invalid, if outside boundaries
+    if x < min_x or x > max_x or y < min_y or y > max_y:
+        return None
+
+    mod = (y - min_y) % 2
+    if mod == 0:
+        if x == max_x:
+            if y == max_y:
+                return None # finished
+            else:
+                return North
+        else:
+            return East
+    else:
+        if x == min_x:
+            if y == max_y:
+                return None # finished
+            else:
+                return North
+        else:
+            return West
+
+
+def move_to(x, y):
+    while get_pos_x() < x:
+        move(East)
+    while get_pos_x() > x:
+        move(West)
+    while get_pos_y() < y:
+        move(North)
+    while get_pos_y() > y:
+        move(South)
 
 
 def reset_world_pos():

@@ -11,6 +11,25 @@ unlock_list = [
     (Unlocks.Mazes, 1),
     (Unlocks.Fertilizer, 4),
     (Unlocks.Expand, 7),
+
+    (Unlocks.Polyculture, 4),
+    (Unlocks.Grass, 9),
+    (Unlocks.Carrots, 9),
+    (Unlocks.Trees, 9),
+    (Unlocks.Pumpkins, 9),
+    (Unlocks.Cactus, 5),
+    (Unlocks.Mazes, 5),
+
+    (Unlocks.Polyculture, 4),
+    (Unlocks.Grass, 10),
+    (Unlocks.Carrots, 10),
+    (Unlocks.Trees, 10),
+    (Unlocks.Pumpkins, 10),
+    (Unlocks.Cactus, 6),
+    (Unlocks.Mazes, 6),
+    (Unlocks.Dinosaurs, 6),
+
+    (Unlocks.Leaderboard, 1),
     (Unlocks.The_Farmers_Remains, 1),
     (Unlocks.Top_Hat, 1),
 ]

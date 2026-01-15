@@ -27,7 +27,7 @@ def farming_sonnenblumen(fertilize=False):
         petals_list[petals] = petals_list[petals] + 1
         current_max_petals = max(current_max_petals, petals)
 
-        movement.fly_over_field()
+        movement.fly_field_step()
 
     # step1.5: fertilize, if requested
     if fertilize:

@@ -50,7 +50,7 @@ def fertilize_field():
 
     elif num_items(Items.Fertilizer) >= all_fields:
         for _f in range(all_fields):
-            movement.fly_over_field()
+            movement.fly_field_step()
             use_item(Items.Fertilizer)
 
             # stop if out of fertilizers

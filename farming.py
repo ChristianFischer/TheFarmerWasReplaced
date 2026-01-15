@@ -1,5 +1,7 @@
 from __builtins__ import *
+import boundaries
 import demands
+import job_drones
 import lib_farming
 import movement
 import plants
@@ -15,13 +17,22 @@ def reset_companion_wishlist():
 
 
 def farm(current_demand, fertilize=False):
-    handle_companions = demands.can_use_companions(current_demand)
+    job_drones.spawn_multi(farm_in_bounds, {"current_demand": current_demand, "fertilize": fertilize})
+
+
+def farm_in_bounds(bounds, parameters):
+    current_demand = parameters["current_demand"]
+    fertilize = parameters["fertilize"]
 
     global max_sunflower_petal
     global companion_wishlist
 
+    handle_companions = demands.can_use_companions(current_demand)
+
     if max_sunflower_petal > 7:
         max_sunflower_petal -= 1
+
+    boundaries.move_to_origin(bounds)
 
     while True:
         current_position = (get_pos_x(), get_pos_y())
@@ -66,6 +77,9 @@ def farm(current_demand, fertilize=False):
 
             if fertilize:
                 lib_farming.do_fertilize()
+        else:
+            if get_ground_type() == Grounds.Soil:
+                till()
 
-        if movement.fly_over_field():
+        if movement.fly_field_step_in_bounds(bounds):
             break

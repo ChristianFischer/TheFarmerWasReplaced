@@ -1,4 +1,5 @@
 from __builtins__ import *
+import boundaries
 import lib_farming
 import movement
 
@@ -21,29 +22,55 @@ def farming_cactus_plant():
 
         lib_farming.do_watering()
 
-        movement.fly_over_field()
+        movement.fly_field_step()
 
     movement.reset_world_pos()
 
 
 # step2: sorting
 def farming_cactus_sort():
+    bounds = boundaries.make_world_bounds()
+    max_size = get_world_size() - 1
+    fly_reverse = False
     is_sorted = False
+
+    boundaries.move_to_origin(bounds)
+
     while not is_sorted:
+        unsorted_area = None
         is_sorted = True
 
-        for _f in range(get_world_size() * get_world_size()):
+        while True:
             cactus_size = measure()
-            if get_pos_x() > 0 and cactus_size < measure(West):
+            invalidate_area = None
+            x = get_pos_x()
+            y = get_pos_y()
+
+            if x > 0 and cactus_size < measure(West):
                 swap(West)
-                is_sorted = False
+                invalidate_area = boundaries.make_bounds_capped(x - 2, y + 1, x + 1, y - 1, max_size)
                 cactus_size = measure()
 
-            if get_pos_y() > 0 and cactus_size < measure(South):
+            if y > 0 and cactus_size < measure(South):
                 swap(South)
+                invalidate_area = boundaries.make_bounds_capped(x - 1, y + 1, x + 1, y - 2, max_size)
+
+            if invalidate_area != None:
+                if unsorted_area == None:
+                    unsorted_area = invalidate_area
+                else:
+                    unsorted_area = boundaries.merge(unsorted_area, invalidate_area)
                 is_sorted = False
 
-            movement.fly_over_field()
+            if fly_reverse:
+                if movement.fly_field_step_in_bounds_reverse(bounds):
+                    break
+            else:
+                if movement.fly_field_step_in_bounds(bounds):
+                    break
+
+        fly_reverse = not fly_reverse
+        bounds = unsorted_area
 
 
 # step3: harvest
