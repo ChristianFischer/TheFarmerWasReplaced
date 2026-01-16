@@ -13,7 +13,8 @@ last_demand = None
 current_demand = None
 
 
-change_hat(Hats.Pumpkin_Hat)
+if num_unlocked(Unlocks.Hats):
+    change_hat(Hats.Brown_Hat)
 
 
 # if we're still inside a maze, erase it

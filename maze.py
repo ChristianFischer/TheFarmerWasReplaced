@@ -9,8 +9,6 @@ def run_maze(times=1):
     required_substance = calc_required_substance()
     use_item(Items.Weird_Substance, required_substance)
 
-    do_a_flip()
-
     use_dfs = False
 
     while True:

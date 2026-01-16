@@ -12,7 +12,8 @@ def farming_cactus():
 
 # step1: planting
 def farming_cactus_plant():
-    for _f in range(get_world_size() * get_world_size()):
+    movement.reset_world_pos()
+    while True:
         if get_entity_type() != Entities.Cactus:
             # erase any previous plant
             if can_harvest():
@@ -20,11 +21,8 @@ def farming_cactus_plant():
 
             lib_farming.do_plant(Entities.Cactus)
 
-        lib_farming.do_watering()
-
-        movement.fly_field_step()
-
-    movement.reset_world_pos()
+        if movement.fly_field_step():
+            break
 
 
 # step2: sorting

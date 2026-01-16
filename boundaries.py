@@ -40,6 +40,17 @@ def get_path_end(bounds):
         return bounds[2], bounds[3]
 
 
+def get_size(bounds):
+    w = bounds[2] - bounds[0] + 1
+    h = bounds[3] - bounds[1] + 1
+    return w, h
+
+
+def get_area(bounds):
+    w, h = get_size(bounds)
+    return w * h
+
+
 def expand(bounds, x, y):
     bounds[0] = min(bounds[0], x)
     bounds[1] = min(bounds[1], y)

@@ -4,6 +4,8 @@ import movement
 
 
 def farming_sonnenblumen(fertilize=False):
+    movement.reset_world_pos()
+
     current_max_petals = 0
     petals_list = {}
 
@@ -24,6 +26,16 @@ def farming_sonnenblumen(fertilize=False):
 
         # store how much sunflowers we got for each number of petals
         petals = measure()
+
+        # this could happen on small fields when the plant isn't grown
+        # when the drone is back on this position
+        if petals == None:
+            while not can_harvest():
+                do_a_flip()
+            harvest()
+            lib_farming.do_plant(Entities.Sunflower)
+            petals = measure()
+
         petals_list[petals] = petals_list[petals] + 1
         current_max_petals = max(current_max_petals, petals)
 

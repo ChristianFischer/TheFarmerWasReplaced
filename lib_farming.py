@@ -11,15 +11,14 @@ def do_plant(_p):
 
 
 def do_watering():
-    if get_ground_type() == Grounds.Soil:
-        if get_water() < 0.5 and num_items(Items.Water) >= 1:
-            use_item(Items.Water)
+    if get_water() <= 0.75:
+        use_item(Items.Water)
 
 
 def do_fertilize():
     if num_items(Items.Fertilizer) > 0:
         if num_items(Items.Weird_Substance) > 0:
-            if get_pos_x() % 3 == 1 and get_pos_y() % 3 == 1 and get_entity_type() != Entities.Bush:
+            if get_pos_x() % 3 == 1 and get_pos_y() % 3 == 1:
                 use_item(Items.Fertilizer)
                 use_item(Items.Weird_Substance)
         else:

@@ -2,7 +2,7 @@ def get_plant_for(need):
     if need == Items.Carrot:
         return Entities.Carrot
     elif need == Items.Wood:
-        if (get_pos_x() + get_pos_y()) % 2 == 1:
+        if (get_pos_x() + get_pos_y()) % 2 == 1 and num_unlocked(Unlocks.Trees) != 0:
             return Entities.Tree
         return Entities.Bush
     elif need == Items.Hay:

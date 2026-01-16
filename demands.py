@@ -1,24 +1,19 @@
+from __builtins__ import *
 import lib_maze
 import plants
 import unlocks
 
-all_items = [
-    Items.Power,
-    Items.Hay,
-    Items.Wood,
-    Items.Carrot,
-    Items.Pumpkin,
-    Items.Cactus,
-    Items.Bone,
-    Items.Gold,
-]
-
 
 def find_demand():
-    if num_items(Items.Power) < 1000:
-        return Items.Power
-    min_stock = 100
-    for i in all_items:
+    if num_unlocked(Unlocks.Sunflowers) > 0:
+        if num_items(Items.Power) < 1000:
+            return Items.Power
+
+    world_fields = get_world_size() ** 2
+    all_plants = unlocks.get_all_available_plants()
+    for i in all_plants:
+        level = all_plants[i]
+        min_stock = (2 ** level) * world_fields
         if num_items(i) < min_stock:
             return i
 
@@ -85,6 +80,9 @@ def find_next_required_item():
 
 
 def can_use_companions(plant):
+    if num_unlocked(Unlocks.Polyculture) == 0:
+        return False
+
     possible_plants = {Items.Hay, Items.Wood, Items.Carrot}
     if plant in possible_plants:
         return True

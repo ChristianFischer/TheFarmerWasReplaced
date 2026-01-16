@@ -2,6 +2,11 @@ from __builtins__ import *
 import boundaries
 
 
+Movement_Step = 0
+Movement_Next_Row = 1
+Movement_Done = 2
+
+
 def fly_over_field(per_field_callback):
     while True:
         per_field_callback()
@@ -30,8 +35,7 @@ def fly_field_step_in_bounds(bounds):
     if x < min_x or x > max_x or y < min_y or y > max_y:
         ox, oy = boundaries.get_origin(bounds)
         move_to(ox, oy)
-        x = ox
-        y = oy
+        return False
 
     mod = (y - min_y) % 2
     if mod == 0:
@@ -54,6 +58,40 @@ def fly_field_step_in_bounds(bounds):
     return False
 
 
+def fly_field_step_in_bounds_with_state(bounds):
+    min_x, min_y, max_x, max_y = bounds
+    x = get_pos_x()
+    y = get_pos_y()
+
+    # if outside the boundaries, move to origin first
+    if x < min_x or x > max_x or y < min_y or y > max_y:
+        ox, oy = boundaries.get_origin(bounds)
+        move_to(ox, oy)
+        return Movement_Step
+
+    mod = (y - min_y) % 2
+    if mod == 0:
+        if x == max_x:
+            if y == max_y:
+                return Movement_Done
+            else:
+                move(North)
+                return Movement_Next_Row
+        else:
+            move(East)
+    else:
+        if x == min_x:
+            if y == max_y:
+                return Movement_Done
+            else:
+                move(North)
+                return Movement_Next_Row
+        else:
+            move(West)
+
+    return Movement_Step
+
+
 def fly_field_step_in_bounds_reverse(bounds):
     min_x, min_y, max_x, max_y = bounds
     x = get_pos_x()
@@ -63,8 +101,7 @@ def fly_field_step_in_bounds_reverse(bounds):
     if x < min_x or x > max_x or y < min_y or y > max_y:
         ex, ey = boundaries.get_path_end(bounds)
         move_to(ex, ey)
-        x = ex
-        y = ey
+        return False
 
     mod = (y - min_y) % 2
     if mod == 0:
@@ -116,6 +153,36 @@ def fly_field_step_in_bounds_get_next_dir(bounds):
 
 
 def move_to(x, y):
+    ws = get_world_size()
+
+    pos_x = get_pos_x()
+    dist_w = pos_x + ws - x
+    dist_e = x - pos_x
+    if dist_w < dist_e:
+        dir_x = West
+        off_x = -1
+    else:
+        dir_x = East
+        off_x = +1
+    while pos_x != x:
+        move(dir_x)
+        pos_x = (pos_x + off_x) % ws
+
+    pos_y = get_pos_y()
+    dist_s = pos_y + ws - y
+    dist_n = y - pos_y
+    if dist_s < dist_n:
+        dir_y = South
+        off_y = -1
+    else:
+        dir_y = North
+        off_y = +1
+    while pos_y != y:
+        move(dir_y)
+        pos_y = (pos_y + off_y) % ws
+
+
+def move_to_no_wrap(x, y):
     while get_pos_x() < x:
         move(East)
     while get_pos_x() > x:
