@@ -1,6 +1,6 @@
 from __builtins__ import *
 import farming_dinos
 
-
-while num_items(Items.Bone) < 33488928:
-    farming_dinos.farming_dinosaur()
+# Tries to solve the whole field.
+# Use the 'simple' algorithm for quick farming
+farming_dinos.farming_dinosaur()
