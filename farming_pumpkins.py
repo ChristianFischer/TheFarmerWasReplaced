@@ -13,16 +13,27 @@ def farming_pumpkins():
 
 def farming_pumpkins_proc(bounds, _parameters={}):
     pumpkin_cost = get_cost(Entities.Pumpkin)
+    last_pos_y = 0
 
-    boundaries.move_to_origin(bounds)
+    if bounds != None:
+        boundaries.move_to_origin(bounds)
+    else:
+        movement.reset_world_pos()
 
     # plant first round
     while True:
         if get_entity_type() != Entities.Pumpkin:
             lib_farming.do_plant(Entities.Pumpkin)
 
-        if movement.fly_field_step_in_bounds(bounds):
-            break
+        if bounds != None:
+            if movement.fly_field_step_in_bounds(bounds):
+                break
+        else:
+            if movement.fly_field_step():
+                break
+
+    if bounds == None:
+        bounds = boundaries.make_world_bounds()
 
     # replace all dead pumpkins until the whole field is valid
     while unlocks.is_all_available(pumpkin_cost):
@@ -72,11 +83,18 @@ def farming_pumpkins_proc(bounds, _parameters={}):
 
                 finished = False
 
-            step = movement.fly_field_step_in_bounds_with_state(bounds)
-            if step == movement.Movement_Next_Row:
+            if bounds != None:
+                if movement.fly_field_step_in_bounds(bounds):
+                    break
+            else:
+                if movement.fly_field_step():
+                    break
+
+            # when we switched row, reset the "current pumpkin"
+            current_pos_y = get_pos_y()
+            if current_pos_y != last_pos_y:
+                last_pos_y = current_pos_y
                 current_pumpkin = 0
-            elif step == movement.Movement_Done:
-                break
 
         if finished:
             break

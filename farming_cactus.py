@@ -13,6 +13,8 @@ def farming_cactus():
 # step1: planting
 def farming_cactus_plant():
     movement.reset_world_pos()
+    clear()
+
     while True:
         if get_entity_type() != Entities.Cactus:
             # erase any previous plant

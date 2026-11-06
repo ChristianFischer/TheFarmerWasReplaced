@@ -1,5 +1,6 @@
 from __builtins__ import *
-import farming
+import farming_pumpkins
 
 
-farming.farm(Items.Pumpkin, 10000000)
+while num_items(Items.Pumpkin) < 10000000:
+    farming_pumpkins.farming_pumpkins()

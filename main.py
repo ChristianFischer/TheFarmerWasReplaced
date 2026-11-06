@@ -7,6 +7,7 @@ import farming_dinos
 import farming_pumpkins
 import farming_sonnenblumen
 import maze
+import unlocks
 
 
 last_demand = None
@@ -25,11 +26,21 @@ if get_entity_type() == Entities.Hedge:
 movement.reset_world_pos()
 
 
+# harvest grass until we're able to plant something else
+while num_unlocked(Unlocks.Plant) == 0:
+    for _i in range(get_world_size() ** 2):
+        harvest()
+        movement.fly_field_step()
+
+    unlocks.find_next_unlock()
+
+
 while True:
     last_demand = current_demand
     current_demand, demand_fertilizer = demands.find_next_required_item()
-    handle_fertilization = False
-    companion_wishlist = {}
+
+    if num_unlocked(Unlocks.Leaderboard) == 1:
+        break
 
     if last_demand != current_demand:
         farming.reset_companion_wishlist()
@@ -45,5 +56,8 @@ while True:
     elif current_demand == Items.Bone:
         farming_dinos.farming_dinosaur()
     else:
-        farming.farm(current_demand, demand_fertilizer)
+        #if num_unlocked(Unlocks.Expand) < 2:
+        #    farming.farm_simple(current_demand)
+        #else:
+            farming.farm(current_demand, None, demand_fertilizer)
 

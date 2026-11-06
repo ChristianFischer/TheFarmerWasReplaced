@@ -14,8 +14,8 @@ def spawn_multi(proc, parameters={}):
     max_drone_count = max_drones()
 
     if max_drone_count == 1:
-        bounds = boundaries.make_world_bounds()
-        proc(bounds, parameters)
+        #bounds = boundaries.make_world_bounds()
+        proc(None, parameters)
     else:
         world_bounds = boundaries.make_world_bounds()
         bounds_list = boundaries.split(world_bounds, max_drone_count)
