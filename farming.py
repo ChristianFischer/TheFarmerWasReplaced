@@ -111,8 +111,8 @@ def farm_in_bounds(bounds, current_demand, demand_amount, fertilize=False):
             if bounds != None:
                 boundaries.move_to_origin(bounds)
             else:
-                movement.reset_world_pos()    
-                
+                movement.reset_world_pos()
+
             if num_items(current_demand) >= demand_amount:
                 break
 

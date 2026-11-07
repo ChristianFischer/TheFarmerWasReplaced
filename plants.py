@@ -18,6 +18,8 @@ def get_plant_for(need):
         return Entities.Cactus
     elif need == Items.Rice:
         return Entities.Rice
+    elif need == Items.Bamboo:
+        return Entities.Bamboo
     return None
 
 
@@ -27,6 +29,8 @@ def need_till_for(plant):
     if plant == Entities.Pumpkin:
         return True
     if plant == Entities.Cactus:
+        return True
+    if plant == Entities.Bamboo:
         return True
     return False
 
@@ -40,7 +44,7 @@ def need_untill_for(plant):
 def requires_ground_for(plant):
     if plant in [Entities.Grass]:
         return [Grounds.Grassland]
-    if plant in [Entities.Carrot, Entities.Pumpkin, Entities.Sunflower, Entities.Cactus]:
+    if plant in [Entities.Carrot, Entities.Pumpkin, Entities.Sunflower, Entities.Cactus, Entities.Bamboo]:
         return [Grounds.Soil]
     if plant in [Entities.Rice]:
         return [Grounds.Clay]

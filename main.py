@@ -2,9 +2,11 @@ from __builtins__ import *
 import movement
 import demands
 import farming
+import farming_bambus
 import farming_cactus
 import farming_dinos
 import farming_pumpkins
+import farming_rice
 import farming_sonnenblumen
 import maze
 import unlocks
@@ -55,6 +57,10 @@ while True:
         farming_cactus.farming_cactus()
     elif current_demand == Items.Bone:
         farming_dinos.farming_dinosaur()
+    elif current_demand == Items.Rice:
+        farming_rice.farming_rice(None)
+    elif current_demand == Items.Bamboo:
+        farming_bambus.farming_bambus(None)
     else:
         #if num_unlocked(Unlocks.Expand) < 2:
         #    farming.farm_simple(current_demand)
