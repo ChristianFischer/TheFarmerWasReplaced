@@ -1,3 +1,6 @@
+from __builtins__ import *
+
+
 def get_plant_for(need):
     if need == Items.Carrot:
         return Entities.Carrot
@@ -13,6 +16,8 @@ def get_plant_for(need):
         return Entities.Sunflower
     elif need == Items.Cactus:
         return Entities.Cactus
+    elif need == Items.Rice:
+        return Entities.Rice
     return None
 
 
@@ -31,11 +36,12 @@ def need_untill_for(plant):
         return True
     return False
 
-    
+
 def requires_ground_for(plant):
     if plant in [Entities.Grass]:
         return [Grounds.Grassland]
     if plant in [Entities.Carrot, Entities.Pumpkin, Entities.Sunflower, Entities.Cactus]:
         return [Grounds.Soil]
+    if plant in [Entities.Rice]:
+        return [Grounds.Clay]
     return [Grounds.Grassland, Grounds.Soil]
-        
